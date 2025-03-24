@@ -1,11 +1,12 @@
 import React from "react";
+import { Outlet } from "react-router";
 import Header from "./Header";
 
-function Layout({ children }) {
+function Layout() {
   return (
     <div id="layout">
       <Header />
-      {children}
+      <Outlet />
     </div>
   );
 }
