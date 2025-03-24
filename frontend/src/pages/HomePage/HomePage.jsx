@@ -8,6 +8,7 @@ const recentViewedStudies = [
     name: "UX 스터디",
     point: 310,
     daysFromStart: 62,
+    description: "Slow And Steady Wins The Race! 다들 오늘 하루도 화이팅 :D",
   },
 ];
 
@@ -22,7 +23,19 @@ function HomePage() {
           <StudyCard study={recentViewedStudies[0]} />
         </div>
       </HomeSectionBox>
-      <HomeSectionBox title="스터디 둘러보기">Hello</HomeSectionBox>
+      <HomeSectionBox title="스터디 둘러보기">
+        <div className="grid grid-cols-3 gap-6">
+          <StudyCard study={recentViewedStudies[0]} />
+          <StudyCard study={recentViewedStudies[0]} />
+          <StudyCard study={recentViewedStudies[0]} />
+          <StudyCard study={recentViewedStudies[0]} />
+          <StudyCard study={recentViewedStudies[0]} />
+          <StudyCard study={recentViewedStudies[0]} />
+          <StudyCard study={recentViewedStudies[0]} />
+          <StudyCard study={recentViewedStudies[0]} />
+          <StudyCard study={recentViewedStudies[0]} />
+        </div>
+      </HomeSectionBox>
     </Page>
   );
 }
