@@ -1,0 +1,16 @@
+### 스터디 만들기
+
+POST http://localhost:5555/studies
+Content-Type: application/json
+
+{
+    "ownerName": "태빈",
+    "name": "Express 격파하기",
+    "description": "Node.js Express로 백엔드를 만드는 스터디입니다",
+    "background": "Bg3",
+    "password": "qwer1234"
+}
+
+### 전체 스터디 목록 가져오기
+
+GET http://localhost:5555/studies

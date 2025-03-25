@@ -1,6 +1,6 @@
 import Page from "../../components/Page";
-import StudyCard from "../../components/StudyCard";
-import HomeSectionBox from "./components/HomeSectionBox";
+import AllStudies from "./components/AllStudies";
+import RecentViewedStudies from "./components/RecentViewedStudies";
 
 const recentViewedStudies = [
   {
@@ -15,27 +15,9 @@ const recentViewedStudies = [
 function HomePage() {
   return (
     <Page>
-      <HomeSectionBox title="최근 조회한 스터디">
-        <div className="grid grid-rows-1 grid-flow-col max-w-full overflow-x-auto gap-x-6">
-          <StudyCard study={recentViewedStudies[0]} />
-          <StudyCard study={recentViewedStudies[0]} />
-          <StudyCard study={recentViewedStudies[0]} />
-          <StudyCard study={recentViewedStudies[0]} />
-        </div>
-      </HomeSectionBox>
-      <HomeSectionBox title="스터디 둘러보기">
-        <div className="grid grid-cols-3 gap-6">
-          <StudyCard study={recentViewedStudies[0]} />
-          <StudyCard study={recentViewedStudies[0]} />
-          <StudyCard study={recentViewedStudies[0]} />
-          <StudyCard study={recentViewedStudies[0]} />
-          <StudyCard study={recentViewedStudies[0]} />
-          <StudyCard study={recentViewedStudies[0]} />
-          <StudyCard study={recentViewedStudies[0]} />
-          <StudyCard study={recentViewedStudies[0]} />
-          <StudyCard study={recentViewedStudies[0]} />
-        </div>
-      </HomeSectionBox>
+      <RecentViewedStudies />
+
+      <AllStudies />
     </Page>
   );
 }

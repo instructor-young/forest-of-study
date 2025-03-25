@@ -1,7 +1,7 @@
-import Bg1 from "../../../assets/img/bg-1.png";
-import Bg2 from "../../../assets/img/bg-2.png";
-import Bg3 from "../../../assets/img/bg-3.png";
-import Bg4 from "../../../assets/img/bg-4.png";
+import Bg1 from "../../../assets/img/bg-1.jpg";
+import Bg2 from "../../../assets/img/bg-2.jpg";
+import Bg3 from "../../../assets/img/bg-3.jpg";
+import Bg4 from "../../../assets/img/bg-4.jpg";
 import BackgroundSelectorColorBg from "./BackgroundSelectorColorBg";
 import BackgroundSelectorImgBg from "./BackgroundSelectorImgBg";
 
