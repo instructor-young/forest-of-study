@@ -1,6 +1,13 @@
 import { useId } from "react";
 
-function Input({ label, placeholder, multiline, rows }) {
+function Input({
+  label,
+  placeholder,
+  multiline,
+  rows,
+  value,
+  onChange: handleChange,
+}) {
   const id = useId();
 
   return (
@@ -11,6 +18,8 @@ function Input({ label, placeholder, multiline, rows }) {
       {multiline ? (
         <textarea
           id={id}
+          value={value}
+          onChange={handleChange}
           placeholder={placeholder}
           rows={rows}
           className="resize-none px-5 py-4 rounded-2xl border border-gray-dddddd bg-white placeholder:text-gray-818181 outline-none focus-within:border-gray-818181 transition"
@@ -18,6 +27,8 @@ function Input({ label, placeholder, multiline, rows }) {
       ) : (
         <input
           id={id}
+          value={value}
+          onChange={handleChange}
           type="text"
           placeholder={placeholder}
           className="px-5 py-4 rounded-2xl border border-gray-dddddd bg-white placeholder:text-gray-818181 outline-none focus-within:border-gray-818181 transition"
