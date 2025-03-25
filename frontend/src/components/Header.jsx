@@ -7,9 +7,17 @@ function Header() {
     <header className="h-[100px] padding py-5 px-6">
       <div className="mx-auto max-w-[1440px] flex items-center justify-between">
         <Link to={"/"}>
-          <img src={LogoLarge} className="h-[60px]" />
+          <img
+            src={LogoLarge}
+            className="h-[60px] hover:brightness-95 active:brightness-90 transition"
+          />
         </Link>
-        <img src={CTALarge} className="h-[58px]" />
+        <Link to={"/studies/new"}>
+          <img
+            src={CTALarge}
+            className="h-[58px] hover:brightness-95 active:brightness-90 transition"
+          />
+        </Link>
       </div>
     </header>
   );
