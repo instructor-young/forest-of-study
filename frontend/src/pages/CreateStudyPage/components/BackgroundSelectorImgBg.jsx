@@ -6,7 +6,7 @@ function BackgroundSelectorImgBg({ imgSrc, onClick: handleClick, isSelected }) {
       <img
         src={imgSrc}
         data-is-selected={isSelected}
-        className="w-full h-full border border-black/10 rounded-2xl hover:brightness-95 active:brightness-90 transition data-[is-selected='true']:brightness-75"
+        className="cursor-pointer w-full h-full border border-black/10 rounded-2xl hover:brightness-95 active:brightness-90 transition data-[is-selected='true']:brightness-75"
       />
       {isSelected && (
         <img

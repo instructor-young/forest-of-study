@@ -1,14 +1,15 @@
 import { useState } from "react";
 import CreateButtonLarge from "../../assets/img/btn-create-lg.png";
-import Input from "../../components/Input";
 import Page from "../../components/Page";
+import PasswordInput from "../../components/PasswordInput";
+import TextInput from "../../components/TextInput";
 import BackgroundSelector from "./components/BackgroundSelector";
 
 function CreateStudyPage() {
   const [nickname, setNickname] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [background, setBackground] = useState(null);
+  const [background, setBackground] = useState("green");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
@@ -24,19 +25,19 @@ function CreateStudyPage() {
         </h1>
 
         <form onSubmit={handleSubmitForm} className="mt-6 space-y-6">
-          <Input
+          <TextInput
             label="닉네임"
             placeholder="닉네임을 입력해 주세요"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
           />
-          <Input
+          <TextInput
             label="스터디 이름"
             placeholder="스터디 이름을 입력해 주세요"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <Input
+          <TextInput
             label="소개"
             placeholder="소개 멘트를 작성해 주세요"
             multiline
@@ -48,8 +49,18 @@ function CreateStudyPage() {
             seletedBackground={background}
             onClickBackground={setBackground}
           />
-          <Input label="비밀번호" placeholder="비밀번호를 입력해 주세요" />
-          <Input label="비밀번호 확인" placeholder="비밀번호를 입력해 주세요" />
+          <PasswordInput
+            label="비밀번호"
+            placeholder="비밀번호를 입력해 주세요"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <PasswordInput
+            label="비밀번호 확인"
+            placeholder="비밀번호를 입력해 주세요"
+            value={passwordConfirm}
+            onChange={(e) => setPasswordConfirm(e.target.value)}
+          />
 
           <button>
             <img

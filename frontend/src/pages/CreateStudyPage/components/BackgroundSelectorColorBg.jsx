@@ -17,7 +17,7 @@ function BackgroundSelectorColorBg({
     <button
       onClick={handleClick}
       className={cx(
-        "aspect-square border border-black/10 rounded-2xl hover:brightness-95 active:brightness-90 transition flex items-center justify-center",
+        "cursor-pointer aspect-square border border-black/10 rounded-2xl hover:brightness-95 active:brightness-90 transition flex items-center justify-center",
         colorClassName
       )}
     >

@@ -1,6 +1,6 @@
 import { useId } from "react";
 
-function Input({
+function TextInput({
   label,
   placeholder,
   multiline,
@@ -38,4 +38,4 @@ function Input({
   );
 }
 
-export default Input;
+export default TextInput;
