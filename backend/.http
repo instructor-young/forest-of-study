@@ -4,10 +4,10 @@ POST http://localhost:5555/studies
 Content-Type: application/json
 
 {
-    "ownerName": "태빈",
-    "name": "Express 격파하기",
-    "description": "Node.js Express로 백엔드를 만드는 스터디입니다",
-    "background": "Bg3",
+    "ownerName": "성경",
+    "name": "데이터 사이언스 실무",
+    "description": "현업에서 실무적으로 활용하는 데이터 사이언스 관련 기술 및 스킬들을 익혀요",
+    "background": "pink",
     "password": "qwer1234"
 }
 
