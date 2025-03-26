@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import API from "../../api/index.api";
 import Page from "../../components/Page";
+import Tag from "../../components/Tag";
 import ControlButton from "./components/ControlButton";
+import LinkButton from "./components/LinkButton";
 
 function StudyDetailPage() {
   const [study, setStudy] = useState(null);
@@ -28,16 +30,31 @@ function StudyDetailPage() {
           </div>
         </div>
 
-        <div>
-          <h1 className="font-extrabold text-[32px] text-black-414141 mb-8 flex gap-x-0.5 items-center">
+        <div className="flex items-center justify-between mb-8 mt-6">
+          <h1 className="font-extrabold text-[32px] text-black-414141 flex gap-x-0.5 items-center leading-none">
             <span>{study.ownerName}</span>
             <span>의 {study.name}</span>
           </h1>
+
+          <div className="flex gap-x-4 items-center">
+            <LinkButton to="/">오늘의 습관</LinkButton>
+            <LinkButton to="/">오늘의 집중</LinkButton>
+          </div>
         </div>
 
-        <div>소개</div>
+        <div className="mb-10">
+          <div className="space-y-2 mt-4">
+            <h2 className="text-lg text-gray-818181">소개</h2>
+            <p className="text-lg text-black-414141 font-medium whitespace-pre-wrap">
+              {study.description}
+            </p>
+          </div>
 
-        <div>포인트</div>
+          <div className="space-y-2 mt-6">
+            <h2 className="text-lg text-gray-818181">현재까지 획득한 포인트</h2>
+            <Tag theme="light" type="point" value={310} size="lg" />
+          </div>
+        </div>
 
         {/* 습관 기록표 */}
       </section>
