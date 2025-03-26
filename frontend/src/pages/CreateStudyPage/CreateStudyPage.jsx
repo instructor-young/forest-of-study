@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
+import API from "../../api/index.api";
 import CreateButtonLarge from "../../assets/img/btn-create-lg.png";
 import Page from "../../components/Page";
 import PasswordInput from "../../components/PasswordInput";
@@ -6,15 +8,35 @@ import TextInput from "../../components/TextInput";
 import BackgroundSelector from "./components/BackgroundSelector";
 
 function CreateStudyPage() {
-  const [nickname, setNickname] = useState("");
+  const [ownerName, setOwnerName] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [background, setBackground] = useState("green");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmitForm = (e) => {
+  const handleSubmitForm = async (e) => {
     e.preventDefault();
+
+    if (!ownerName) return alert("닉네임을 입력해 주세요");
+    if (!name) return alert("스터디 이름을 입력해 주세요");
+    if (!description) return alert("소개를 입력해 주세요");
+    if (!password) return alert("비밀번호를 입력해 주세요");
+    if (password !== passwordConfirm)
+      return alert("비밀번호가 일치하지 않습니다");
+
+    const data = {
+      ownerName,
+      name,
+      description,
+      background,
+      password,
+    };
+
+    await API.studies.createStudy(data);
+
+    navigate("/");
   };
 
   return (
@@ -28,8 +50,8 @@ function CreateStudyPage() {
           <TextInput
             label="닉네임"
             placeholder="닉네임을 입력해 주세요"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
+            value={ownerName}
+            onChange={(e) => setOwnerName(e.target.value)}
           />
           <TextInput
             label="스터디 이름"

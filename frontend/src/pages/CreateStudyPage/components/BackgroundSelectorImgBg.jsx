@@ -2,7 +2,11 @@ import SeletedIcon from "../../../assets/img/icon-selected.png";
 
 function BackgroundSelectorImgBg({ imgSrc, onClick: handleClick, isSelected }) {
   return (
-    <button onClick={handleClick} className="aspect-square relative">
+    <button
+      type="button"
+      onClick={handleClick}
+      className="aspect-square relative"
+    >
       <img
         src={imgSrc}
         data-is-selected={isSelected}

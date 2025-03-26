@@ -15,6 +15,7 @@ function BackgroundSelectorColorBg({
 
   return (
     <button
+      type="button"
       onClick={handleClick}
       className={cx(
         "cursor-pointer aspect-square border border-black/10 rounded-2xl hover:brightness-95 active:brightness-90 transition flex items-center justify-center",

@@ -7,8 +7,24 @@ async function getStudies() {
   return data;
 }
 
+async function getStudy(studyId) {
+  const response = await apiClient.get(`/studies/${studyId}`);
+  const data = response.data;
+
+  return data;
+}
+
+async function createStudy(dto) {
+  const response = await apiClient.post("/studies", dto);
+  const data = response.data;
+
+  return data;
+}
+
 const studiesAPI = {
   getStudies,
+  getStudy,
+  createStudy,
 };
 
 export default studiesAPI;

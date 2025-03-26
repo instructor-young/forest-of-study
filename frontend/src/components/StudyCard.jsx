@@ -36,7 +36,7 @@ function StudyCard({ study }) {
 
   return (
     <Link
-      to={"/"}
+      to={`/studies/${study.id}`}
       data-theme={theme}
       className="group block w-[357px] h-[243px] relative border-black/10 border rounded-[20px]"
     >
