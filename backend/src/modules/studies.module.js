@@ -33,4 +33,17 @@ studiesRouter.get("/", async (req, res, next) => {
   }
 });
 
+studiesRouter.get("/:studyId", async (req, res, next) => {
+  try {
+    const studyId = req.params.studyId;
+    const study = await prisma.study.findUnique({
+      where: { id: studyId },
+    });
+
+    res.status(200).json(study);
+  } catch (e) {
+    next(e);
+  }
+});
+
 module.exports = studiesRouter;
