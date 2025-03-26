@@ -4,6 +4,7 @@ import API from "../../api/index.api";
 import Page from "../../components/Page";
 import Tag from "../../components/Tag";
 import ControlButton from "./components/ControlButton";
+import HabitRecords from "./components/HabitRecords";
 import LinkButton from "./components/LinkButton";
 
 function StudyDetailPage() {
@@ -57,6 +58,7 @@ function StudyDetailPage() {
         </div>
 
         {/* 습관 기록표 */}
+        <HabitRecords />
       </section>
     </Page>
   );
