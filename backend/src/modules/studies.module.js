@@ -46,4 +46,19 @@ studiesRouter.get("/:studyId", async (req, res, next) => {
   }
 });
 
+studiesRouter.post("/:studyId/check-password", async (req, res, next) => {
+  try {
+    const studyId = req.params.studyId;
+    const { password } = req.body;
+    const study = await prisma.study.findUnique({
+      where: { id: studyId },
+    });
+    const isCorrect = await bcrypt.compare(password, study.encryptedPassword);
+
+    res.status(200).json(isCorrect);
+  } catch (e) {
+    next(e);
+  }
+});
+
 module.exports = studiesRouter;
