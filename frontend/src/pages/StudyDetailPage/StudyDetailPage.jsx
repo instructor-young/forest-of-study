@@ -7,7 +7,7 @@ import Tag from "../../components/Tag";
 import { useModal } from "../../contexts/modal.context";
 import ControlButton from "./components/ControlButton";
 import HabitRecords from "./components/HabitRecords";
-import LinkButton from "./components/LinkButton";
+import TodayButton from "./components/TodayButton";
 
 function StudyDetailPage() {
   const [study, setStudy] = useState(null);
@@ -18,8 +18,9 @@ function StudyDetailPage() {
     API.studies.getStudy(studyId).then(setStudy);
   }, [studyId]);
 
-  const handleClickEdit = () =>
-    modal.open(<PasswordModal study={study} type="edit" />);
+  const handleClickEdit = () => modal.open(<PasswordModal study={study} type="edit" />);
+  const handleClickTodayHabit = () => modal.open(<PasswordModal study={study} type="habits" />);
+  const handleClickTodayFocus = () => modal.open(<PasswordModal study={study} type="focus" />);
 
   if (!study) return "로딩 중...";
 
@@ -46,17 +47,15 @@ function StudyDetailPage() {
           </h1>
 
           <div className="flex gap-x-4 items-center">
-            <LinkButton to="/">오늘의 습관</LinkButton>
-            <LinkButton to="/">오늘의 집중</LinkButton>
+            <TodayButton onClick={handleClickTodayHabit}>오늘의 습관</TodayButton>
+            <TodayButton onClick={handleClickTodayFocus}>오늘의 집중</TodayButton>
           </div>
         </div>
 
         <div className="mb-10">
           <div className="space-y-2 mt-4">
             <h2 className="text-lg text-gray-818181">소개</h2>
-            <p className="text-lg text-black-414141 font-medium whitespace-pre-wrap">
-              {study.description}
-            </p>
+            <p className="text-lg text-black-414141 font-medium whitespace-pre-wrap">{study.description}</p>
           </div>
 
           <div className="space-y-2 mt-6">

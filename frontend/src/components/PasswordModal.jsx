@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import API from "../api/index.api";
+import FocusBtn from "../assets/img/btn_focus.png";
+import HabitBtn from "../assets/img/btn_habit.png";
 import ModificationBtn from "../assets/img/btn_modification.png";
 import { useModal } from "../contexts/modal.context";
 import Modal from "./Modal";
@@ -10,13 +12,27 @@ function PasswordModal({ type, study }) {
   const modal = useModal();
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
+  const btnSrc = (() => {
+    switch (type) {
+      case "edit":
+        return ModificationBtn;
+      case "habits":
+        return HabitBtn;
+      case "focus":
+        return FocusBtn;
+      case "delete":
+      // return ConfirmBtn
+    }
+  })();
 
   const handleClickButton = async () => {
     const isCorrect = await API.studies.checkStudyPassword(study.id, password);
     if (!isCorrect) return;
 
-    if (type === "edit") {
-      navigate(`/studies/${study.id}/edit`, { state: password });
+    if (type === "delete") {
+      // navigate(`/studies/${study.id}/edit`, { state: password });
+    } else {
+      navigate(`/studies/${study.id}/${type}`, { state: password });
     }
 
     modal.close();
@@ -25,9 +41,7 @@ function PasswordModal({ type, study }) {
   return (
     <Modal>
       <header className="flex items-center justify-center relative">
-        <h5 className="font-extrabold text-2xl text-black-414141">
-          {study.name}
-        </h5>
+        <h5 className="font-extrabold text-2xl text-black-414141">{study.name}</h5>
 
         <button
           type="button"
@@ -38,9 +52,7 @@ function PasswordModal({ type, study }) {
         </button>
       </header>
 
-      <p className="mt-7 font-medium text-lg text-gray-818181 text-center mb-6">
-        권한이 필요해요!
-      </p>
+      <p className="mt-7 font-medium text-lg text-gray-818181 text-center mb-6">권한이 필요해요!</p>
 
       <PasswordInput
         label="비밀번호"
@@ -50,15 +62,8 @@ function PasswordModal({ type, study }) {
         autoFocus
       />
 
-      <button
-        type="button"
-        className="mt-10 cursor-pointer"
-        onClick={handleClickButton}
-      >
-        <img
-          src={ModificationBtn}
-          className="h-[58px] hover:brightness-95 active:brightness-90 transition"
-        />
+      <button type="button" className="mt-10 cursor-pointer" onClick={handleClickButton}>
+        <img src={btnSrc} className="h-[58px] hover:brightness-95 active:brightness-90 transition" />
       </button>
     </Modal>
   );

@@ -5,6 +5,7 @@ import CreateStudyPage from "./pages/CreateStudyPage";
 import EditStudyPage from "./pages/EditStudyPage";
 import HomePage from "./pages/HomePage";
 import StudyDetailPage from "./pages/StudyDetailPage";
+import StudyHabitsPage from "./pages/StudyHabitsPage";
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
             <Route path="/studies/new" element={<CreateStudyPage />} />
             <Route path="/studies/:studyId" element={<StudyDetailPage />} />
             <Route path="/studies/:studyId/edit" element={<EditStudyPage />} />
+            <Route path="/studies/:studyId/habits" element={<StudyHabitsPage />} />
+            <Route path="/studies/:studyId/focus" element={<EditStudyPage />} />
           </Route>
         </Routes>
       </ModalProvider>

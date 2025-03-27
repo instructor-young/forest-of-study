@@ -2,8 +2,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Pretendard", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: "Pretendard", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --color-black-414141: #414141;
   --color-gray-818181: #818181;
   --color-gray-dddddd: #dddddd;
@@ -25,4 +24,8 @@
 
 body {
   background-color: var(--color-bg);
+}
+
+button {
+  cursor: pointer;
 }
