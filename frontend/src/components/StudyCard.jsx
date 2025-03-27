@@ -6,9 +6,7 @@ import Tag from "./Tag";
 function StudyCard({ study }) {
   const backgroundType =
     study.background?.slice(0, 2) === "Bg" ? "img" : "color";
-  const startFrom = dayjs(study.createdAt).diff(dayjs(), "day") + 1;
-
-  console.log("startFrom", startFrom);
+  const startFrom = dayjs().diff(study.createdAt, "day") + 1;
 
   const theme = backgroundType === "color" ? "light" : "dark";
 

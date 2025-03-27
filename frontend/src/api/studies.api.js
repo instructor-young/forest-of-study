@@ -30,11 +30,19 @@ async function checkStudyPassword(studyId, password) {
   return data;
 }
 
+async function updateStudy(studyId, dto) {
+  const response = await apiClient.put(`/studies/${studyId}`, dto);
+  const data = response.data;
+
+  return data;
+}
+
 const studiesAPI = {
   getStudies,
   getStudy,
   createStudy,
   checkStudyPassword,
+  updateStudy,
 };
 
 export default studiesAPI;

@@ -19,9 +19,7 @@ function StudyDetailPage() {
   }, [studyId]);
 
   const handleClickEdit = () =>
-    modal.open(
-      <PasswordModal study={study} onSuccess={() => console.log("성공")} />
-    );
+    modal.open(<PasswordModal study={study} type="edit" />);
 
   if (!study) return "로딩 중...";
 

@@ -1,20 +1,25 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import API from "../api/index.api";
 import ModificationBtn from "../assets/img/btn_modification.png";
 import { useModal } from "../contexts/modal.context";
 import Modal from "./Modal";
 import PasswordInput from "./PasswordInput";
 
-function PasswordModal({ study, onSuccess }) {
+function PasswordModal({ type, study }) {
   const modal = useModal();
+  const navigate = useNavigate();
   const [password, setPassword] = useState("");
 
   const handleClickButton = async () => {
     const isCorrect = await API.studies.checkStudyPassword(study.id, password);
+    if (!isCorrect) return;
 
-    if (isCorrect) {
-      onSuccess();
+    if (type === "edit") {
+      navigate(`/studies/${study.id}/edit`, { state: password });
     }
+
+    modal.close();
   };
 
   return (
