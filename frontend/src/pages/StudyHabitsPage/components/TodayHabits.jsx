@@ -1,10 +1,24 @@
+import { useModal } from "../../../contexts/modal.context";
+import TodayHabitsModal from "./TodayHabitsModal";
+
 function TodayHabits() {
+  const modal = useModal();
+
+  const handleClickEdit = () => {
+    modal.open(<TodayHabitsModal />);
+  };
+
   return (
     <div className="mt-6 rounded-[20px] min-h-[500px] border px-6 py-10 border-gray-dddddd">
       <div className="max-w-[400px] w-full mx-auto">
         <div className="mb-6 relative">
           <h5 className="font-extrabold text-2xl text-black-414141 text-center">오늘의 습관</h5>
-          <button className="absolute right-0 top-1/2 -translate-y-1/2 font-medium text-sm text-gray-818181 cursor-pointer">목록 수정</button>
+          <button
+            onClick={handleClickEdit}
+            className="absolute right-0 top-1/2 -translate-y-1/2 font-medium text-sm text-gray-818181 cursor-pointer"
+          >
+            목록 수정
+          </button>
         </div>
 
         <ul className="grid grid-cols-1 gap-y-5">
