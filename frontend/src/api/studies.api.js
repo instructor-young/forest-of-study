@@ -21,10 +21,20 @@ async function createStudy(dto) {
   return data;
 }
 
+async function checkStudyPassword(studyId, password) {
+  const response = await apiClient.post(`/studies/${studyId}/check-password`, {
+    password,
+  });
+  const data = response.data;
+
+  return data;
+}
+
 const studiesAPI = {
   getStudies,
   getStudy,
   createStudy,
+  checkStudyPassword,
 };
 
 export default studiesAPI;

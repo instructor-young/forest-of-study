@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import API from "../../api/index.api";
 import Page from "../../components/Page";
+import PasswordModal from "../../components/PasswordModal";
 import Tag from "../../components/Tag";
+import { useModal } from "../../contexts/modal.context";
 import ControlButton from "./components/ControlButton";
 import HabitRecords from "./components/HabitRecords";
 import LinkButton from "./components/LinkButton";
@@ -10,10 +12,16 @@ import LinkButton from "./components/LinkButton";
 function StudyDetailPage() {
   const [study, setStudy] = useState(null);
   const { studyId } = useParams();
+  const modal = useModal();
 
   useEffect(() => {
     API.studies.getStudy(studyId).then(setStudy);
   }, [studyId]);
+
+  const handleClickEdit = () =>
+    modal.open(
+      <PasswordModal study={study} onSuccess={() => console.log("성공")} />
+    );
 
   if (!study) return "로딩 중...";
 
@@ -25,7 +33,9 @@ function StudyDetailPage() {
           <div>
             <ControlButton color="green">공유하기</ControlButton>
             <span className="px-4 text-green-text font-medium">|</span>
-            <ControlButton color="green">수정하기</ControlButton>
+            <ControlButton color="green" onClick={handleClickEdit}>
+              수정하기
+            </ControlButton>
             <span className="px-4 text-gray-818181 font-medium">|</span>
             <ControlButton color="gray">스터디 삭제하기</ControlButton>
           </div>

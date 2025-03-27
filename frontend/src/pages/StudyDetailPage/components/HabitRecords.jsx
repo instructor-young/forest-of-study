@@ -25,7 +25,7 @@ function HabitRecords() {
         {Array(18)
           .fill(0)
           .map((_, index) => (
-            <HabitRecordRow index={index + 1} />
+            <HabitRecordRow key={index} index={index + 1} />
           ))}
         {/* 내용 */}
       </div>
