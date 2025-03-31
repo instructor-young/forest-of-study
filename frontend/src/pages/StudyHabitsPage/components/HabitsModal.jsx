@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useParams } from "react-router";
 import API from "../../../api/index.api";
 import MediumCancleButton from "../../../assets/img/btn_cancel_md.png";
 import ModificationCompleteButton from "../../../assets/img/btn_modification_complete.png";
@@ -8,6 +9,7 @@ import Modal from "../../../components/Modal";
 import { useModal } from "../../../contexts/modal.context";
 
 function HabitsModal({ habits: passedHabits, password }) {
+  const { studyId } = useParams();
   const [habits, setHabits] = useState(passedHabits);
   const modal = useModal();
 
@@ -29,7 +31,7 @@ function HabitsModal({ habits: passedHabits, password }) {
   };
 
   const handleClickUpdate = async () => {
-    await API.studies.updateStudyHabits(study.id, password, habits);
+    await API.studies.updateStudyHabits(studyId, password, habits);
 
     modal.close();
   };
