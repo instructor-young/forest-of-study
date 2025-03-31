@@ -1,11 +1,13 @@
+import { useParams } from "react-router";
 import { useModal } from "../../../contexts/modal.context";
 import HabitsModal from "./HabitsModal";
 
 function TodayHabits({ habits, password }) {
   const modal = useModal();
+  const { studyId } = useParams();
 
   const handleClickEdit = () => {
-    modal.open(<HabitsModal habits={habits} password={password} />);
+    modal.open(<HabitsModal studyId={studyId} habits={habits} password={password} />);
   };
 
   return (

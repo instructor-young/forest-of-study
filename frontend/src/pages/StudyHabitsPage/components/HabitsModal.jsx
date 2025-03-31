@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useParams } from "react-router";
 import API from "../../../api/index.api";
 import MediumCancleButton from "../../../assets/img/btn_cancel_md.png";
 import ModificationCompleteButton from "../../../assets/img/btn_modification_complete.png";
@@ -8,10 +7,11 @@ import TrashIcon from "../../../assets/img/icon_trash.png";
 import Modal from "../../../components/Modal";
 import { useModal } from "../../../contexts/modal.context";
 
-function HabitsModal({ habits: passedHabits, password }) {
-  const { studyId } = useParams();
+function HabitsModal({ studyId, habits: passedHabits, password }) {
   const [habits, setHabits] = useState(passedHabits);
   const modal = useModal();
+
+  console.log("studyId", studyId);
 
   const handleChangeInput = (id) => (e) => {
     const value = e.target.value;
