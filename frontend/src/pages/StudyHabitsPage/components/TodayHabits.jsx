@@ -1,11 +1,11 @@
 import { useModal } from "../../../contexts/modal.context";
-import TodayHabitsModal from "./TodayHabitsModal";
+import HabitsModal from "./HabitsModal";
 
-function TodayHabits() {
+function TodayHabits({ habits, password }) {
   const modal = useModal();
 
   const handleClickEdit = () => {
-    modal.open(<TodayHabitsModal />);
+    modal.open(<HabitsModal habits={habits} password={password} />);
   };
 
   return (
@@ -22,21 +22,11 @@ function TodayHabits() {
         </div>
 
         <ul className="grid grid-cols-1 gap-y-5">
-          <li>
-            <TodayHabit label={"미라클모닝 6시 기상"} isActive />
-          </li>
-          <li>
-            <TodayHabit label={"아침 챙겨 먹기"} isActive />
-          </li>
-          <li>
-            <TodayHabit label={"책 1시간 읽기"} />
-          </li>
-          <li>
-            <TodayHabit label={"스트레칭"} />
-          </li>
-          <li>
-            <TodayHabit label={"사이드 프로젝트"} />
-          </li>
+          {habits.map((habit) => (
+            <li key={habit.id}>
+              <TodayHabit label={habit.title} isActive />
+            </li>
+          ))}
         </ul>
       </div>
     </div>

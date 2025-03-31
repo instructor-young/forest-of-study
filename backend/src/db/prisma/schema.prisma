@@ -20,5 +20,23 @@ model Study {
   description       String
   background        String
   encryptedPassword String
+  habits            Habit[]
   createdAt         DateTime @default(now())
+}
+
+model Habit {
+  id           String        @id @default(cuid())
+  title        String
+  study        Study         @relation(fields: [studyId], references: [id])
+  studyId      String
+  habitRecords HabitRecord[]
+  createdAt    DateTime      @default(now())
+  isDeleted    Boolean       @default(false)
+}
+
+model HabitRecord {
+  id         String   @id @default(cuid())
+  habit      Habit    @relation(fields: [habitId], references: [id])
+  habitId    String
+  recordedAt DateTime @default(now())
 }

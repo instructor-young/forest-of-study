@@ -30,8 +30,22 @@ async function checkStudyPassword(studyId, password) {
   return data;
 }
 
-async function updateStudy(studyId, dto) {
-  const response = await apiClient.put(`/studies/${studyId}`, dto);
+async function updateStudy(studyId, password, dto) {
+  const response = await apiClient.put(`/studies/${studyId}`, dto, { headers: { Authorization: password } });
+  const data = response.data;
+
+  return data;
+}
+
+async function getStudyHabits(studyId, password) {
+  const response = await apiClient.get(`/studies/${studyId}/habits`, { headers: { Authorization: password } });
+  const data = response.data;
+
+  return data;
+}
+
+async function updateStudyHabits(studyId, password, dto) {
+  const response = await apiClient.put(`/studies/${studyId}/habits`, dto, { headers: { Authorization: password } });
   const data = response.data;
 
   return data;
@@ -43,6 +57,8 @@ const studiesAPI = {
   createStudy,
   checkStudyPassword,
   updateStudy,
+  getStudyHabits,
+  updateStudyHabits,
 };
 
 export default studiesAPI;

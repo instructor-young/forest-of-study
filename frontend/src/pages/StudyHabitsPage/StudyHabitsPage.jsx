@@ -25,8 +25,8 @@ function StudyHabitsPage() {
   }, [studyId, password]);
 
   useEffect(() => {
-    API.studies.getStudy(studyId).then(setStudy);
-  }, [studyId]);
+    API.studies.getStudyHabits(studyId, password).then(setStudy);
+  }, [studyId, password]);
 
   if (!isPasswordConfirmed) return "인증 중입니다...";
   if (!isPasswordCorrect) return "잘못된 접근입니다";
@@ -54,7 +54,7 @@ function StudyHabitsPage() {
           </div>
         </div>
 
-        <TodayHabits />
+        <TodayHabits habits={study.habits} password={password} />
       </section>
     </Page>
   );

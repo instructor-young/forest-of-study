@@ -4,9 +4,13 @@ const prisma = require("../db/prisma/client.prisma");
 const {
   throwErrorIfStudyPasswordIsNotCorrect,
 } = require("../utils/functions.utils");
+const studyOwnerOnly = require("../middlewares/studyOwnerOnly");
 
 const studiesRouter = express.Router();
 
+/**
+ * 스터디 생성
+ */
 studiesRouter.post("/", async (req, res, next) => {
   try {
     const { ownerName, name, description, background, password } = req.body;
@@ -24,6 +28,9 @@ studiesRouter.post("/", async (req, res, next) => {
   }
 });
 
+/**
+ * 전체 스터디 조회
+ */
 studiesRouter.get("/", async (req, res, next) => {
   try {
     const studies = await prisma.study.findMany({
@@ -37,12 +44,16 @@ studiesRouter.get("/", async (req, res, next) => {
   }
 });
 
+/**
+ * 스터디 상세 조회
+ */
 studiesRouter.get("/:studyId", async (req, res, next) => {
   try {
     const studyId = req.params.studyId;
     const study = await prisma.study.findUnique({
       where: { id: studyId },
       omit: { encryptedPassword: true },
+      include: { habits: true },
     });
 
     res.status(200).json(study);
@@ -51,6 +62,9 @@ studiesRouter.get("/:studyId", async (req, res, next) => {
   }
 });
 
+/**
+ * 스터디 비밀번호 검증
+ */
 studiesRouter.post("/:studyId/check-password", async (req, res, next) => {
   try {
     const studyId = req.params.studyId;
@@ -69,15 +83,15 @@ studiesRouter.post("/:studyId/check-password", async (req, res, next) => {
   }
 });
 
-studiesRouter.put("/:studyId", async (req, res, next) => {
+/**
+ * 스터디 수정
+ */
+studiesRouter.put("/:studyId", studyOwnerOnly, async (req, res, next) => {
   try {
     const studyId = req.params.studyId;
-    const { ownerName, name, description, background, password, newPassword } =
-      req.body;
-    if (!ownerName || !name || !description || !background || !password)
+    const { ownerName, name, description, background, newPassword } = req.body;
+    if (!ownerName || !name || !description || !background)
       throw new Error("Invalid input");
-
-    await throwErrorIfStudyPasswordIsNotCorrect(studyId, password);
 
     const encryptedPassword = newPassword
       ? await bcrypt.hash(newPassword, 12)
@@ -94,5 +108,91 @@ studiesRouter.put("/:studyId", async (req, res, next) => {
     next(e);
   }
 });
+
+/**
+ * 스터디 습관 목록 가져오기
+ */
+studiesRouter.get(
+  "/:studyId/habits",
+  studyOwnerOnly,
+  async (req, res, next) => {
+    try {
+      const studyId = req.params.studyId;
+      const study = await prisma.study.findUnique({
+        where: { id: studyId },
+        omit: { encryptedPassword: true },
+        include: {
+          habits: {
+            where: { isDeleted: false },
+            orderBy: { createdAt: "asc" },
+          },
+        },
+      });
+
+      res.json(study);
+    } catch (e) {
+      next(e);
+    }
+  }
+);
+
+/**
+ * 스터디 습관 목록 업데이트
+ */
+studiesRouter.put(
+  "/:studyId/habits",
+  studyOwnerOnly,
+  async (req, res, next) => {
+    try {
+      prisma.$transaction(async (tx) => {
+        const studyId = req.params.studyId;
+        const habits = req.body;
+
+        const existingHabits = await tx.habit.findMany({
+          where: { studyId, isDeleted: false },
+        });
+
+        const habitsToDelete = existingHabits
+          .filter(
+            (existingHabit) =>
+              !habits.some((habit) => habit.id === existingHabit.id)
+          )
+          .map((h) => h.id);
+
+        const habitsToCreate = habits.filter((habit) =>
+          habit.id.includes("new-")
+        );
+
+        const habitsToUpdate = habits.filter(
+          (habit) => !habit.id.includes("new-")
+        );
+
+        const promisesA = habitsToDelete.map((habit) =>
+          tx.habit.update({
+            where: { id: habit.id },
+            data: { isDeleted: true },
+          })
+        );
+
+        const promisesB = habitsToCreate.map((habit) =>
+          tx.habit.create({ data: { studyId, title: habit.title } })
+        );
+
+        const promisesC = habitsToUpdate.map((habit) =>
+          tx.habit.update({
+            where: { id: habit.id },
+            data: { title: habit.title },
+          })
+        );
+
+        await Promise.all([...promisesA, ...promisesB, ...promisesC]);
+
+        res.status(200).send("OK");
+      });
+    } catch (e) {
+      next(e);
+    }
+  }
+);
 
 module.exports = studiesRouter;
