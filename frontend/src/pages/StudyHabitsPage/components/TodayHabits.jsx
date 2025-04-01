@@ -29,13 +29,20 @@ function TodayHabits({ habits, password, refetchTodayHabits }) {
           </button>
         </div>
 
-        <ul className="grid grid-cols-1 gap-y-5">
-          {habits.map((habit) => (
-            <li key={habit.id}>
-              <TodayHabit label={habit.title} isActive={habit.habitRecords.length > 0} onClick={handleClickTodayHabit(habit.id)} />
-            </li>
-          ))}
-        </ul>
+        {habits.length > 0 ? (
+          <ul className="grid grid-cols-1 gap-y-5">
+            {habits.map((habit) => (
+              <li key={habit.id}>
+                <TodayHabit label={habit.title} isActive={habit.habitRecords.length > 0} onClick={handleClickTodayHabit(habit.id)} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="h-full mt-36 text-center font-medium text-gray-818181">
+            아직 습관이 없어요. <br />
+            목록 수정을 눌러 습관을 생성해 보세요.
+          </div>
+        )}
       </div>
     </div>
   );
