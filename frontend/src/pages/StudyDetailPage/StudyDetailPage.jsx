@@ -19,6 +19,7 @@ function StudyDetailPage() {
   }, [studyId]);
 
   const handleClickEdit = () => modal.open(<PasswordModal study={study} type="edit" />);
+  const handleClickDelete = () => modal.open(<PasswordModal study={study} type="delete" />);
   const handleClickTodayHabit = () => modal.open(<PasswordModal study={study} type="habits" />);
   const handleClickTodayFocus = () => modal.open(<PasswordModal study={study} type="focus" />);
 
@@ -36,7 +37,9 @@ function StudyDetailPage() {
               수정하기
             </ControlButton>
             <span className="px-4 text-gray-818181 font-medium">|</span>
-            <ControlButton color="gray">스터디 삭제하기</ControlButton>
+            <ControlButton color="gray" onClick={handleClickDelete}>
+              스터디 삭제하기
+            </ControlButton>
           </div>
         </div>
 

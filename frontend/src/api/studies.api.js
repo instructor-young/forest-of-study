@@ -37,6 +37,13 @@ async function updateStudy(studyId, password, dto) {
   return data;
 }
 
+async function deleteStudy(studyId, password) {
+  const response = await apiClient.delete(`/studies/${studyId}`, { headers: { Authorization: password } });
+  const data = response.data;
+
+  return data;
+}
+
 async function getStudyHabits(studyId, password) {
   const response = await apiClient.get(`/studies/${studyId}/habits`, { headers: { Authorization: password } });
   const data = response.data;
@@ -62,6 +69,7 @@ const studiesAPI = {
   getStudies,
   getStudy,
   createStudy,
+  deleteStudy,
   checkStudyPassword,
   updateStudy,
   getStudyHabits,

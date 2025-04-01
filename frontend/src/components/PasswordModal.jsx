@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import API from "../api/index.api";
+import ConfirmBtn from "../assets/img/btn_confirm.png";
 import FocusBtn from "../assets/img/btn_focus.png";
 import HabitBtn from "../assets/img/btn_habit.png";
 import ModificationBtn from "../assets/img/btn_modification.png";
@@ -21,7 +22,7 @@ function PasswordModal({ type, study }) {
       case "focus":
         return FocusBtn;
       case "delete":
-      // return ConfirmBtn
+        return ConfirmBtn;
     }
   })();
 
@@ -32,12 +33,13 @@ function PasswordModal({ type, study }) {
     if (!isCorrect) return;
 
     if (type === "delete") {
-      // navigate(`/studies/${study.id}/edit`, { state: password });
+      await API.studies.deleteStudy(study.id, password);
+      modal.close();
+      navigate(`/`);
     } else {
       navigate(`/studies/${study.id}/${type}`, { state: password });
+      modal.close();
     }
-
-    modal.close();
   };
 
   return (
@@ -54,7 +56,9 @@ function PasswordModal({ type, study }) {
         </button>
       </header>
 
-      <p className="mt-7 font-medium text-lg text-gray-818181 text-center mb-6">권한이 필요해요!</p>
+      <p className="mt-7 font-medium text-lg text-gray-818181 text-center mb-6">
+        {type === "delete" ? "정말로 삭제하시겠어요?" : "권한이 필요해요!"}
+      </p>
       <form onSubmit={handleSubmit}>
         <PasswordInput
           label="비밀번호"

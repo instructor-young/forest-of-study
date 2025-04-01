@@ -27,7 +27,7 @@ model Study {
 model Habit {
   id           String        @id @default(cuid())
   title        String
-  study        Study         @relation(fields: [studyId], references: [id])
+  study        Study         @relation(fields: [studyId], references: [id], onDelete: Cascade)
   studyId      String
   habitRecords HabitRecord[]
   createdAt    DateTime      @default(now())
@@ -36,7 +36,7 @@ model Habit {
 
 model HabitRecord {
   id         String   @id @default(cuid())
-  habit      Habit    @relation(fields: [habitId], references: [id])
+  habit      Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
   habitId    String
   recordedAt DateTime @default(now())
 }

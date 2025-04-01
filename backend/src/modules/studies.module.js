@@ -130,6 +130,20 @@ studiesRouter.put("/:studyId", studyOwnerOnly, async (req, res, next) => {
 });
 
 /**
+ * 스터디 삭제
+ */
+studiesRouter.delete("/:studyId", studyOwnerOnly, async (req, res, next) => {
+  try {
+    const studyId = req.params.studyId;
+    await prisma.study.delete({ where: { id: studyId } });
+
+    res.status(204).send();
+  } catch (e) {
+    next(e);
+  }
+});
+
+/**
  * 스터디 습관 목록 가져오기
  */
 studiesRouter.get(
