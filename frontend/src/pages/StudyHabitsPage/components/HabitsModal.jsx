@@ -7,7 +7,7 @@ import TrashIcon from "../../../assets/img/icon_trash.png";
 import Modal from "../../../components/Modal";
 import { useModal } from "../../../contexts/modal.context";
 
-function HabitsModal({ studyId, habits: passedHabits, password }) {
+function HabitsModal({ studyId, habits: passedHabits, password, refetchTodayHabits }) {
   const [habits, setHabits] = useState(passedHabits);
   const modal = useModal();
 
@@ -32,6 +32,7 @@ function HabitsModal({ studyId, habits: passedHabits, password }) {
 
   const handleClickUpdate = async () => {
     await API.studies.updateStudyHabits(studyId, password, habits);
+    await refetchTodayHabits();
 
     modal.close();
   };

@@ -65,7 +65,7 @@ function StudyDetailPage() {
         </div>
 
         {/* 습관 기록표 */}
-        <HabitRecords />
+        <HabitRecords habits={study.habits} />
       </section>
     </Page>
   );

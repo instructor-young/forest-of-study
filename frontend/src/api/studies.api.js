@@ -51,6 +51,13 @@ async function updateStudyHabits(studyId, password, dto) {
   return data;
 }
 
+async function toggleTodayHabit(studyId, habitId, password) {
+  const response = await apiClient.put(`/studies/${studyId}/habits/${habitId}`, undefined, { headers: { Authorization: password } });
+  const data = response.data;
+
+  return data;
+}
+
 const studiesAPI = {
   getStudies,
   getStudy,
@@ -59,6 +66,7 @@ const studiesAPI = {
   updateStudy,
   getStudyHabits,
   updateStudyHabits,
+  toggleTodayHabit,
 };
 
 export default studiesAPI;

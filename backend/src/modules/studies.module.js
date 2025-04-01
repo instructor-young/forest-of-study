@@ -1,9 +1,12 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const prisma = require("../db/prisma/client.prisma");
 const {
-  throwErrorIfStudyPasswordIsNotCorrect,
-} = require("../utils/functions.utils");
+  startOfToday,
+  endOfToday,
+  startOfWeek,
+  endOfWeek,
+} = require("date-fns");
+const prisma = require("../db/prisma/client.prisma");
 const studyOwnerOnly = require("../middlewares/studyOwnerOnly");
 
 const studiesRouter = express.Router();
@@ -50,11 +53,27 @@ studiesRouter.get("/", async (req, res, next) => {
 studiesRouter.get("/:studyId", async (req, res, next) => {
   try {
     const studyId = req.params.studyId;
+    const weekStart = startOfWeek(new Date());
+    const weekEnd = endOfWeek(new Date());
+
     const study = await prisma.study.findUnique({
       where: { id: studyId },
       omit: { encryptedPassword: true },
-      include: { habits: true },
+      include: {
+        habits: {
+          include: {
+            habitRecords: {
+              where: { recordedAt: { gte: weekStart, lte: weekEnd } },
+            },
+          },
+        },
+      },
     });
+
+    const filteredHabits = study.habits.filter(
+      (habit) => habit.isDeleted === false || habit.habitRecords.length > 0
+    );
+    study.habits = filteredHabits;
 
     res.status(200).json(study);
   } catch (e) {
@@ -118,12 +137,26 @@ studiesRouter.get(
   async (req, res, next) => {
     try {
       const studyId = req.params.studyId;
+
+      const todayStart = startOfToday();
+      const todayEnd = endOfToday();
+
       const study = await prisma.study.findUnique({
         where: { id: studyId },
         omit: { encryptedPassword: true },
         include: {
           habits: {
-            where: { isDeleted: false },
+            include: {
+              habitRecords: {
+                where: {
+                  recordedAt: {
+                    gte: todayStart,
+                    lte: todayEnd,
+                  },
+                },
+              },
+            },
+            where: { AND: [{ isDeleted: false }] },
             orderBy: { createdAt: "asc" },
           },
         },
@@ -148,16 +181,14 @@ studiesRouter.put(
         const studyId = req.params.studyId;
         const habits = req.body;
 
-        const existingHabits = await tx.habit.findMany({
+        const existingHabits = await prisma.habit.findMany({
           where: { studyId, isDeleted: false },
         });
 
-        const habitsToDelete = existingHabits
-          .filter(
-            (existingHabit) =>
-              !habits.some((habit) => habit.id === existingHabit.id)
-          )
-          .map((h) => h.id);
+        const habitsToDelete = existingHabits.filter(
+          (existingHabit) =>
+            !habits.some((habit) => habit.id === existingHabit.id)
+        );
 
         const habitsToCreate = habits.filter((habit) =>
           habit.id.includes("new-")
@@ -189,6 +220,43 @@ studiesRouter.put(
 
         res.status(200).send("OK");
       });
+    } catch (e) {
+      next(e);
+    }
+  }
+);
+
+studiesRouter.put(
+  "/:studyId/habits/:habitId",
+  studyOwnerOnly,
+  async (req, res, next) => {
+    try {
+      const { studyId, habitId } = req.params;
+      const habit = prisma.habit.findUnique({
+        where: { id: habitId, studyId },
+      });
+      if (!habit) throw new Error("Bad Request");
+
+      const todayStart = startOfToday();
+      const todayEnd = endOfToday();
+
+      const habitRecord = await prisma.habitRecord.findFirst({
+        where: {
+          habitId,
+          recordedAt: {
+            gte: todayStart,
+            lte: todayEnd,
+          },
+        },
+      });
+
+      if (habitRecord) {
+        await prisma.habitRecord.delete({ where: { id: habitRecord.id } });
+        res.status(204).send("No Content");
+      } else {
+        await prisma.habitRecord.create({ data: { habitId } });
+        res.status(201).send("Created");
+      }
     } catch (e) {
       next(e);
     }

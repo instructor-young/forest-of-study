@@ -2,13 +2,7 @@ import { useId, useState } from "react";
 import IconVisibilityOff from "../assets/img/icon-visibility-off.png";
 import IconVisibilityOn from "../assets/img/icon-visibility-on.png";
 
-function PasswordInput({
-  label,
-  placeholder,
-  value,
-  onChange: handleChange,
-  ...props
-}) {
+function PasswordInput({ label, placeholder, value, onChange: handleChange, ...props }) {
   const id = useId();
   const [isVisible, setIsVisible] = useState(false);
 
@@ -28,15 +22,8 @@ function PasswordInput({
           {...props}
         />
 
-        <button
-          type="button"
-          onClick={() => setIsVisible((prev) => !prev)}
-          className="cursor-pointer"
-        >
-          <img
-            src={isVisible ? IconVisibilityOn : IconVisibilityOff}
-            alt="visibility"
-          />
+        <button type="button" onClick={() => setIsVisible((prev) => !prev)} className="cursor-pointer" tabIndex={-1}>
+          <img src={isVisible ? IconVisibilityOn : IconVisibilityOff} alt="visibility" />
         </button>
       </div>
     </div>

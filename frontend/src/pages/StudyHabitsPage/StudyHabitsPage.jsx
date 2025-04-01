@@ -16,6 +16,7 @@ function StudyHabitsPage() {
 
   const handleClickTodayFocus = () => navigate(`/studies/${studyId}/focus`, { state: password });
   const handleClickTodayHabit = () => navigate(`/studies/${studyId}`);
+  const fetchTodayHabits = () => API.studies.getStudyHabits(studyId, password).then(setStudy);
 
   useEffect(() => {
     API.studies.checkStudyPassword(studyId, password).then((result) => {
@@ -25,7 +26,8 @@ function StudyHabitsPage() {
   }, [studyId, password]);
 
   useEffect(() => {
-    API.studies.getStudyHabits(studyId, password).then(setStudy);
+    fetchTodayHabits();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [studyId, password]);
 
   if (!isPasswordConfirmed) return "인증 중입니다...";
@@ -54,7 +56,7 @@ function StudyHabitsPage() {
           </div>
         </div>
 
-        <TodayHabits habits={study.habits} password={password} />
+        <TodayHabits habits={study.habits} password={password} refetchTodayHabits={fetchTodayHabits} />
       </section>
     </Page>
   );

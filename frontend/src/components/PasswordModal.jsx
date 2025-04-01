@@ -25,7 +25,9 @@ function PasswordModal({ type, study }) {
     }
   })();
 
-  const handleClickButton = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     const isCorrect = await API.studies.checkStudyPassword(study.id, password);
     if (!isCorrect) return;
 
@@ -53,18 +55,19 @@ function PasswordModal({ type, study }) {
       </header>
 
       <p className="mt-7 font-medium text-lg text-gray-818181 text-center mb-6">권한이 필요해요!</p>
+      <form onSubmit={handleSubmit}>
+        <PasswordInput
+          label="비밀번호"
+          placeholder="비밀번호를 입력해 주세요"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          autoFocus
+        />
 
-      <PasswordInput
-        label="비밀번호"
-        placeholder="비밀번호를 입력해 주세요"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        autoFocus
-      />
-
-      <button type="button" className="mt-10 cursor-pointer" onClick={handleClickButton}>
-        <img src={btnSrc} className="h-[58px] hover:brightness-95 active:brightness-90 transition" />
-      </button>
+        <button type="submit" className="mt-10 cursor-pointer">
+          <img src={btnSrc} className="h-[58px] hover:brightness-95 active:brightness-90 transition" />
+        </button>
+      </form>
     </Modal>
   );
 }

@@ -1,13 +1,19 @@
 import { useParams } from "react-router";
+import API from "../../../api/index.api";
 import { useModal } from "../../../contexts/modal.context";
 import HabitsModal from "./HabitsModal";
 
-function TodayHabits({ habits, password }) {
+function TodayHabits({ habits, password, refetchTodayHabits }) {
   const modal = useModal();
   const { studyId } = useParams();
 
   const handleClickEdit = () => {
-    modal.open(<HabitsModal studyId={studyId} habits={habits} password={password} />);
+    modal.open(<HabitsModal studyId={studyId} habits={habits} password={password} refetchTodayHabits={refetchTodayHabits} />);
+  };
+
+  const handleClickTodayHabit = (habitId) => async () => {
+    await API.studies.toggleTodayHabit(studyId, habitId, password);
+    await refetchTodayHabits();
   };
 
   return (
@@ -26,7 +32,7 @@ function TodayHabits({ habits, password }) {
         <ul className="grid grid-cols-1 gap-y-5">
           {habits.map((habit) => (
             <li key={habit.id}>
-              <TodayHabit label={habit.title} isActive />
+              <TodayHabit label={habit.title} isActive={habit.habitRecords.length > 0} onClick={handleClickTodayHabit(habit.id)} />
             </li>
           ))}
         </ul>

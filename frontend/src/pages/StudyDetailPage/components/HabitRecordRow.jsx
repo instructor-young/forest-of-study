@@ -40,36 +40,21 @@ const stickers = [
   Sticker18,
 ];
 
-function HabitRecordRow({ index }) {
+function HabitRecordRow({ habit, index }) {
   const stickerSrc = stickers[index];
+  const daysOfHabitRecords = habit.habitRecords.map((habitRecord) => new Date(habitRecord.recordedAt).getDay());
+
+  const getIsActive = (day) => daysOfHabitRecords.includes(day);
 
   return (
     <div className="grid-cols-subgrid col-span-2 grid h-16">
-      <div className="place-content-center text-black-414141 font-bold text-right px-6">
-        미라클모닝 6시 기상
-      </div>
+      <div className="place-content-center text-black-414141 font-bold text-right px-6">{habit.title}</div>
       <div className="grid grid-cols-7 place-items-center text-gray-818181 text-lg">
-        <div>
-          <img src={Sticker0} alt="empty" className="size-9" />
-        </div>
-        <div>
-          <img src={stickerSrc} alt="empty" className="size-9" />
-        </div>
-        <div>
-          <img src={stickerSrc} alt="empty" className="size-9" />
-        </div>
-        <div>
-          <img src={stickerSrc} alt="empty" className="size-9" />
-        </div>
-        <div>
-          <img src={stickerSrc} alt="empty" className="size-9" />
-        </div>
-        <div>
-          <img src={stickerSrc} alt="empty" className="size-9" />
-        </div>
-        <div>
-          <img src={stickerSrc} alt="empty" className="size-9" />
-        </div>
+        {[1, 2, 3, 4, 5, 6, 0].map((dayInNumber) => (
+          <div key={dayInNumber}>
+            <img src={getIsActive(dayInNumber) ? stickerSrc : Sticker0} className="size-9" />
+          </div>
+        ))}
       </div>
     </div>
   );
