@@ -61,6 +61,7 @@ studiesRouter.get("/:studyId", async (req, res, next) => {
       omit: { encryptedPassword: true },
       include: {
         habits: {
+          orderBy: { createdAt: "asc" },
           include: {
             habitRecords: {
               where: { recordedAt: { gte: weekStart, lte: weekEnd } },
@@ -226,6 +227,9 @@ studiesRouter.put(
   }
 );
 
+/**
+ * 오늘의 습관 달성 여부 토글하기
+ */
 studiesRouter.put(
   "/:studyId/habits/:habitId",
   studyOwnerOnly,
