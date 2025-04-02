@@ -3,14 +3,18 @@ const {
 } = require("../utils/functions.utils");
 
 function studyOwnerOnly(req, res, next) {
-  const { studyId } = req.params;
-  const password = req.headers.authorization;
+  try {
+    const { studyId } = req.params;
+    const password = req.headers.authorization;
 
-  if (!studyId || !password) throw new Error("Bad request");
+    if (!studyId || !password) throw new Error("Bad request");
 
-  throwErrorIfStudyPasswordIsNotCorrect(studyId, password);
+    throwErrorIfStudyPasswordIsNotCorrect(studyId, password);
 
-  next();
+    next();
+  } catch (e) {
+    next(e);
+  }
 }
 
 module.exports = studyOwnerOnly;
