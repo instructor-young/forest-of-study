@@ -12,7 +12,7 @@ function AllStudies() {
   const pageSize = 6;
   const maxPage = Math.ceil(studies.length / 6);
   const [searchParams] = useSearchParams();
-  const query = searchParams.get("query");
+  const query = searchParams.get("query") || "";
   const orderBy = searchParams.get("orderBy");
 
   useEffect(() => {
