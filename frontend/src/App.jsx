@@ -5,6 +5,7 @@ import CreateStudyPage from "./pages/CreateStudyPage";
 import EditStudyPage from "./pages/EditStudyPage";
 import HomePage from "./pages/HomePage";
 import StudyDetailPage from "./pages/StudyDetailPage";
+import StudyFocusPage from "./pages/StudyFocusPage/StudyFocusPage";
 import StudyHabitsPage from "./pages/StudyHabitsPage";
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
             <Route path="/studies/:studyId" element={<StudyDetailPage />} />
             <Route path="/studies/:studyId/edit" element={<EditStudyPage />} />
             <Route path="/studies/:studyId/habits" element={<StudyHabitsPage />} />
-            <Route path="/studies/:studyId/focus" element={<EditStudyPage />} />
+            <Route path="/studies/:studyId/focus" element={<StudyFocusPage />} />
           </Route>
         </Routes>
       </ModalProvider>

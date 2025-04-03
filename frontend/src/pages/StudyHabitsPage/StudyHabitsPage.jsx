@@ -26,9 +26,11 @@ function StudyHabitsPage() {
   }, [studyId, password]);
 
   useEffect(() => {
-    fetchTodayHabits();
+    if (isPasswordConfirmed && isPasswordCorrect) {
+      fetchTodayHabits();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [studyId, password]);
+  }, [isPasswordConfirmed, isPasswordCorrect, studyId, password]);
 
   if (!isPasswordConfirmed) return "인증 중입니다...";
   if (!isPasswordCorrect) return "잘못된 접근입니다";
