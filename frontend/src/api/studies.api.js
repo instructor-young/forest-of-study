@@ -65,6 +65,13 @@ async function toggleTodayHabit(studyId, habitId, password) {
   return data;
 }
 
+async function finishFocus(studyId, seconds, password) {
+  const response = await apiClient.post(`/studies/${studyId}/focus`, { seconds }, { headers: { Authorization: password } });
+  const data = response.data;
+
+  return data;
+}
+
 const studiesAPI = {
   getStudies,
   getStudy,
@@ -75,6 +82,7 @@ const studiesAPI = {
   getStudyHabits,
   updateStudyHabits,
   toggleTodayHabit,
+  finishFocus,
 };
 
 export default studiesAPI;

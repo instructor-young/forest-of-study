@@ -63,7 +63,7 @@ function StudyDetailPage() {
 
           <div className="space-y-2 mt-6">
             <h2 className="text-lg text-gray-818181">현재까지 획득한 포인트</h2>
-            <Tag theme="light" type="point" value={310} size="lg" />
+            <Tag theme="light" type="point" value={study.point} size="lg" />
           </div>
         </div>
 

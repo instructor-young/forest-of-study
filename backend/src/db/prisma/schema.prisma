@@ -20,6 +20,7 @@ model Study {
   description       String
   background        String
   encryptedPassword String
+  point             Int      @default(0)
   habits            Habit[]
   createdAt         DateTime @default(now())
 }

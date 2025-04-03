@@ -281,4 +281,26 @@ studiesRouter.put(
   }
 );
 
+studiesRouter.post(
+  "/:studyId/focus",
+  studyOwnerOnly,
+  async (req, res, next) => {
+    try {
+      const studyId = req.params.studyId;
+      const seconds = req.body.seconds || 0;
+      const tenMinutesUnit = Math.floor(seconds / 600);
+      const point = 3 + 1 * tenMinutesUnit;
+
+      await prisma.study.update({
+        where: { id: studyId },
+        data: { point: { increment: point } },
+      });
+
+      res.json(point);
+    } catch (e) {
+      next(e);
+    }
+  }
+);
+
 module.exports = studiesRouter;

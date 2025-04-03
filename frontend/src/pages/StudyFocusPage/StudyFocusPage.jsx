@@ -28,6 +28,10 @@ function StudyFocusPage() {
   const location = useLocation();
   const password = location.state;
 
+  const handleClickTodayHabit = () => navigate(`/studies/${studyId}/habits`, { state: password });
+  const handleClickGoToHome = () => navigate(`/studies/${studyId}`);
+  const fetchStudy = () => API.studies.getStudy(studyId).then(setStudy);
+
   const handleChangeSeconds = (e) => {
     const value = Number(e.target.value);
     if (isNaN(value) || value < 0) return setSeconds(0);
@@ -81,17 +85,16 @@ function StudyFocusPage() {
     }, 1000);
   };
 
-  const handleClickStop = () => {
+  const handleClickStop = async () => {
     setTimerStatus("stop");
     setMinutes(0);
     setSeconds(0);
     setTargetSeconds(null);
     setCurrentSeconds(null);
-  };
 
-  const handleClickTodayHabit = () => navigate(`/studies/${studyId}/habits`, { state: password });
-  const handleClickGoToHome = () => navigate(`/studies/${studyId}`);
-  const fetchTodayHabits = () => API.studies.getStudy(studyId).then(setStudy);
+    await API.studies.finishFocus(studyId, targetSeconds, password);
+    await fetchStudy();
+  };
 
   useEffect(() => {
     API.studies.checkStudyPassword(studyId, password).then((result) => {
@@ -102,7 +105,7 @@ function StudyFocusPage() {
 
   useEffect(() => {
     if (isPasswordConfirmed && isPasswordCorrect) {
-      fetchTodayHabits();
+      fetchStudy();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPasswordConfirmed, isPasswordCorrect, studyId]);
@@ -155,7 +158,7 @@ function StudyFocusPage() {
 
         <div className="space-y-2">
           <h3 className="text-lg text-gray-818181">현재까지 획득한 포인트</h3>
-          <Tag theme="light" type="point" value={310} size="lg" />
+          <Tag theme="light" type="point" value={study.point} size="lg" />
         </div>
 
         <div className="border border-gray-dddddd rounded-[20px] py-10 px-6 mt-6 flex flex-col items-center">
