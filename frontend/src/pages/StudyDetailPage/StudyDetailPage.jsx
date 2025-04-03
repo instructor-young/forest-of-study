@@ -26,7 +26,7 @@ function StudyDetailPage() {
   useEffect(() => {
     if (!study) return;
     const recentlyViewedStudies = JSON.parse(localStorage.getItem("recentlyViewedStudies")) || [];
-    const newRecentlyViewedStudies = [study, ...recentlyViewedStudies];
+    const newRecentlyViewedStudies = [study, ...recentlyViewedStudies.filter((s) => s.id !== study.id)];
 
     localStorage.setItem("recentlyViewedStudies", JSON.stringify(newRecentlyViewedStudies));
   }, [study]);
