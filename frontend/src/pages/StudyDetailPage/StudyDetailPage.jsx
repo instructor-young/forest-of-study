@@ -6,6 +6,7 @@ import PasswordModal from "../../components/PasswordModal";
 import Tag from "../../components/Tag";
 import { useModal } from "../../contexts/modal.context";
 import ControlButton from "./components/ControlButton";
+import EmojiZone from "./components/EmojiZone";
 import HabitRecords from "./components/HabitRecords";
 import TodayButton from "./components/TodayButton";
 
@@ -37,7 +38,8 @@ function StudyDetailPage() {
     <Page>
       <section className="bg-white rounded-[20px] p-10 [&+&]:mt-10">
         <div className="flex justify-between items-center">
-          <div>이모지 영역</div>
+          <EmojiZone />
+
           <div>
             <ControlButton color="green">공유하기</ControlButton>
             <span className="px-4 text-green-text font-medium">|</span>
