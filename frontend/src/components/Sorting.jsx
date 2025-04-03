@@ -6,7 +6,7 @@ const sortingOptions = [
   { label: "최근 순", value: "createdAt,desc" },
   { label: "오래된 순", value: "createdAt,asc" },
   { label: "많은 포인트 순", value: "point,desc" },
-  { label: "적은 포인트 순", value: "point,desc" },
+  { label: "적은 포인트 순", value: "point,asc" },
 ];
 
 function Sorting() {

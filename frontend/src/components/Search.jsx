@@ -3,8 +3,8 @@ import { useSearchParams } from "react-router";
 import SearchIcon from "../assets/img/icon_search.png";
 
 function Search() {
-  const [query, setQuery] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
+  const [query, setQuery] = useState(searchParams.get("query") || "");
 
   const handleSubmit = (e) => {
     e.preventDefault();
