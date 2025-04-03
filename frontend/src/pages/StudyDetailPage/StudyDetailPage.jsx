@@ -14,14 +14,22 @@ function StudyDetailPage() {
   const { studyId } = useParams();
   const modal = useModal();
 
-  useEffect(() => {
-    API.studies.getStudy(studyId).then(setStudy);
-  }, [studyId]);
-
   const handleClickEdit = () => modal.open(<PasswordModal study={study} type="edit" />);
   const handleClickDelete = () => modal.open(<PasswordModal study={study} type="delete" />);
   const handleClickTodayHabit = () => modal.open(<PasswordModal study={study} type="habits" />);
   const handleClickTodayFocus = () => modal.open(<PasswordModal study={study} type="focus" />);
+
+  useEffect(() => {
+    API.studies.getStudy(studyId).then(setStudy);
+  }, [studyId]);
+
+  useEffect(() => {
+    if (!study) return;
+    const recentlyViewedStudies = JSON.parse(localStorage.getItem("recentlyViewedStudies")) || [];
+    const newRecentlyViewedStudies = [study, ...recentlyViewedStudies];
+
+    localStorage.setItem("recentlyViewedStudies", JSON.stringify(newRecentlyViewedStudies));
+  }, [study]);
 
   if (!study) return "로딩 중...";
 
