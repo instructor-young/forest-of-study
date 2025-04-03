@@ -1,14 +1,19 @@
 import { Picker } from "emoji-mart";
 import { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router";
+import API from "../api/index.api";
 import SmileIcon from "../assets/img/icon_smile.png";
 
-function AddEmojiButton() {
+function AddEmojiButton({ fetchStudy }) {
+  const { studyId } = useParams();
   const emojiMartContainerDOMRef = useRef(null);
   const [isPickerVisible, setIsPickerVisible] = useState(false);
 
   const handleClickButton = () => {
     setIsPickerVisible((prev) => !prev);
   };
+
+  const addEmoji = (emoji) => API.studies.addEmoji(studyId, emoji);
 
   useEffect(() => {
     const picker = new Picker({
@@ -17,12 +22,15 @@ function AddEmojiButton() {
 
         return response.json();
       },
-      onEmojiSelect: (emoji) => {
-        console.log(emoji.native);
+      onEmojiSelect: async (emoji) => {
+        await addEmoji(emoji.native);
+        setIsPickerVisible(false);
+        await fetchStudy();
       },
     });
 
     emojiMartContainerDOMRef.current.appendChild(picker);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -303,4 +303,28 @@ studiesRouter.post(
   }
 );
 
+studiesRouter.post("/:studyId/emoji", async (req, res, next) => {
+  try {
+    const studyId = req.params.studyId;
+    const emoji = req.body.emoji;
+    if (!emoji) throw new Error(401);
+
+    const study = await prisma.study.findUnique({
+      where: { id: studyId },
+      select: { emojis: true },
+    });
+    if (!study) throw new Error(404);
+
+    study.emojis[emoji] = (study.emojis[emoji] || 0) + 1;
+    await prisma.study.update({
+      where: { id: studyId },
+      data: { emojis: study.emojis },
+    });
+
+    res.status(201).send("OK");
+  } catch (e) {
+    next(e);
+  }
+});
+
 module.exports = studiesRouter;

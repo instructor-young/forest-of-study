@@ -72,6 +72,13 @@ async function finishFocus(studyId, seconds, password) {
   return data;
 }
 
+async function addEmoji(studyId, emoji) {
+  const response = await apiClient.post(`/studies/${studyId}/emoji`, { emoji });
+  const data = response.data;
+
+  return data;
+}
+
 const studiesAPI = {
   getStudies,
   getStudy,
@@ -83,6 +90,7 @@ const studiesAPI = {
   updateStudyHabits,
   toggleTodayHabit,
   finishFocus,
+  addEmoji,
 };
 
 export default studiesAPI;

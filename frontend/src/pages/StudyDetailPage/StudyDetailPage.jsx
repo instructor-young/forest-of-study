@@ -19,9 +19,11 @@ function StudyDetailPage() {
   const handleClickDelete = () => modal.open(<PasswordModal study={study} type="delete" />);
   const handleClickTodayHabit = () => modal.open(<PasswordModal study={study} type="habits" />);
   const handleClickTodayFocus = () => modal.open(<PasswordModal study={study} type="focus" />);
+  const fetchStudy = () => API.studies.getStudy(studyId).then(setStudy);
 
   useEffect(() => {
-    API.studies.getStudy(studyId).then(setStudy);
+    fetchStudy();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [studyId]);
 
   useEffect(() => {
@@ -38,7 +40,7 @@ function StudyDetailPage() {
     <Page>
       <section className="bg-white rounded-[20px] p-10 [&+&]:mt-10">
         <div className="flex justify-between items-center">
-          <EmojiZone />
+          <EmojiZone emojis={study.emojis} fetchStudy={fetchStudy} />
 
           <div>
             <ControlButton color="green">공유하기</ControlButton>

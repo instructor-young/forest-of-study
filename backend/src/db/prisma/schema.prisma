@@ -21,6 +21,7 @@ model Study {
   background        String
   encryptedPassword String
   point             Int      @default(0)
+  emojis            Json     @default("{}")
   habits            Habit[]
   createdAt         DateTime @default(now())
 }

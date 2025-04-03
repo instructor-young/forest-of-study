@@ -1,9 +1,11 @@
 import { cx } from "class-variance-authority";
 import dayjs from "dayjs";
 import { Link } from "react-router";
+import Emoji from "./Emoji";
 import Tag from "./Tag";
 
 function StudyCard({ study }) {
+  console.log(study.emojis);
   const backgroundType = study.background?.slice(0, 2) === "Bg" ? "img" : "color";
   const startFrom = dayjs().diff(study.createdAt, "day") + 1;
 
@@ -53,7 +55,15 @@ function StudyCard({ study }) {
           <span className={cx("mt-2.5 inline-block text-sm text-gray-818181 group-data-[theme=dark]:text-white")}>{startFrom}일째 진행 중</span>
         </header>
 
-        <p className={cx("mt-[30px] text-gray-414141 group-data-[theme=dark]:text-white")}>{study.description}</p>
+        <p className={cx("mt-[30px] text-gray-414141 h-[48px] group-data-[theme=dark]:text-white")}>{study.description}</p>
+
+        <ul className="flex flex-wrap gap-x-1 mt-[24px]">
+          {Object.entries(study.emojis || {}).map(([emoji, count]) => (
+            <li key={emoji}>
+              <Emoji emoji={emoji} count={count} size="sm" />
+            </li>
+          ))}
+        </ul>
       </article>
     </Link>
   );
